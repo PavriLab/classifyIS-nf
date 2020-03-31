@@ -30,6 +30,7 @@ def helpMessage() {
      classifyIS-nf
     ================================================================
      DESCRIPTION
+
      Quantification of nasent strand sequencing reads in called initiation sites
      and classification of initiation sites according to this data
 
@@ -61,4 +62,148 @@ params.help = false
 if (params.help) {
     helpMessage()
     exit 0
+}
+
+if (!params.sitesA) {
+  exit 1, "--sitesA was not specified"
+} else {
+  if (!file(params.sitesA).exists()) {
+    exit 1, "--sitesA was specified but file does not exist"
+  }
+}
+
+if (!params.bamA) {
+  exit 1, "--bamA was not specified"
+} else {
+  if (!file(params.bamA).exists()) {
+    exit 1, "--bamA was specified but file does not exist"
+  }
+}
+
+if (!params.sitesB) {
+  exit 1, "--sitesB was not specified"
+} else {
+  if (!file(params.sitesB).exists()) {
+    exit 1, "--sitesB was specified but file does not exist"
+  }
+}
+
+if (!params.bamB) {
+  exit 1, "--bamB was not specified"
+} else {
+  if (!file(params.bamB).exists()) {
+    exit 1, "--bamB was specified but file does not exist"
+  }
+}
+
+if (!file(params.outputDir).exists()) {
+  file(params.outputDir).mkdir()
+}
+
+log.info ""
+log.info " parameters"
+log.info " ======================"
+log.info " sitesA                   : ${params.sitesA}"
+log.info " bamA                     : ${params.bamA}"
+log.info " labelA                   : ${params.labelA}"
+log.info " sitesB                   : ${params.sitesB}"
+log.info " bamB                     : ${params.bamB}"
+log.info " labelB                   : ${params.labelB}"
+log.info " FC                       : ${params.FC}"
+log.info " t                        : ${params.t}"
+log.info " filePrefix               : ${params.filePrefix}"
+log.info " outputDir                : ${params.outputDir}"
+log.info " ======================"
+log.info ""
+
+mergeChannel = Channel
+                  .fromList([[file(params.sitesA), file(params.sitesB)])
+
+quantificationChannel = Channel
+                            .fromList([[file(params.bamA), params.labelA,
+                                        file(params.bamB), params.labelB]])
+
+process mergeSites {
+
+  tag { params.filePrefix }
+
+  publishDir  path: "${params.outputDir}",
+              mode: "copy",
+              overwrite: "true",
+              pattern: "*_IS.bed"
+
+  input:
+  set file(sitesA), file(sitesB) from mergeChannel
+
+  output:
+  file("${params.filePrefix}_IS.bed") into resultsMergeSites
+
+  shell:
+  '''
+  '''
+}
+
+process quantifyReads {
+
+  tag { params.filePrefix }
+
+  publishDir  path: "${params.outputDir}",
+              mode: "copy",
+              overwrite: "true",
+              pattern: "*.count.tsv"
+
+  input:
+  set file(bamA), val(labelA), file(bamB), val(labelB) from quantificationChannel
+  file(mergedSites) from resultsMergeSites
+
+  output:
+  set val(labelA), val(labelB), file("${params.filePrefix}.count.tsv") into resultsQuantifyReads
+
+  shell:
+  '''
+  '''
+}
+
+process processQuantification {
+
+  tag { params.filePrefix }
+
+  publishDir  path: "${params.outputDir}",
+              mode: "copy",
+              overwrite: "true",
+              pattern: "*.master.tsv"
+
+  input:
+  set val(labelA), val(labelB), file(quantificationFile) from resultsQuantifyReads
+
+  output:
+  set val(labelA), val(labelB), file("${params.filePrefix}.master.tsv") into resultsProcessQuantification
+
+  shell:
+  '''
+  '''
+}
+
+process plotting {
+
+  tag { params.filePrefix }
+
+  publishDir  path: "${params.outputDir}",
+              mode: "copy",
+              overwrite: "true",
+              pattern: "*.pdf"
+
+  input:
+  set val(labelA), val(labelB), file(masterTable) from resultsProcessQuantification
+
+  output:
+  file("${params.filePrefix}.pdf") into resultsPlotting
+
+  shell:
+  '''
+  '''
+}
+
+workflow.onComplete {
+	println ( workflow.success ? "COMPLETED!" : "FAILED" )
 }

@@ -34,13 +34,16 @@ def helpMessage() {
      and classification of initiation sites according to this data
 
      Usage:
-     nextflow run dmalzl/classifyIS-nf --sitesA IS_A.bed --sitesB IS_B.bed --bamA conditionA.bam --bamB conditionB.bam
+     nextflow run dmalzl/classifyIS-nf --sitesA A_IS.bed --bamA conditionA.bam --labelA WT --sitesB B_IS.bed  --bamB conditionB.bam --labelB KD
 
      Options:
       --sitesA        BED file containing initiation sites for condition A (usually WT)
-      --sitesB        BED file containing initiation sites for condition B (usually treated)
       --bamA          BAM file containing NS-seq reads for condition A
+      --labelA        label to use for condition A (Default: A)
+
+      --sitesB        BED file containing initiation sites for condition B (usually treated)
       --bamB          BAM file containing NS-seq reads for condition B
+      --labelB        label to use for condition B (Default: B)
 
       --FC            log2(RPM) cutoff to use for assigning upregulation or downregulation for a given peak (Default: 0.585 [log2(1.5)])
       --t             log2(RPM) cutoff to use for specifying putative peak call threshold (Default: 2)

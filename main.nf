@@ -81,6 +81,9 @@ if (!params.bamA) {
   if (!file(params.bamA).exists()) {
     exit 1, "--bamA was specified but file does not exist"
   }
+  if (!file("${params.bamA}.bai").exists()) {
+    exit 1, "index for BAMfile A is missing"
+  }
 }
 
 if (!params.sitesB) {
@@ -96,6 +99,9 @@ if (!params.bamB) {
 } else {
   if (!file(params.bamB).exists()) {
     exit 1, "--bamB was specified but file does not exist"
+  }
+  if (!file("${params.bamB}.bai").exists()) {
+    exit 1, "index for BAMfile B is missing"
   }
 }
 
@@ -122,7 +128,7 @@ log.info " ======================"
 log.info ""
 
 mergeChannel = Channel
-                  .fromList([[file(params.sitesA), file(params.sitesB)])
+                  .fromList([[file(params.sitesA), file(params.sitesB)]])
 
 quantificationChannel = Channel
                             .fromList([[file(params.bamA), params.labelA,

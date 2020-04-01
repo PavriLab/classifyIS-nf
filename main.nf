@@ -176,7 +176,7 @@ process quantifyReads {
   shell:
   '''
   multiBamSummary BED-file -b !{bamA} !{bamB} \
-                           --BED !{mergeSites} \
+                           --BED !{mergedSites} \
                            -l !{labelA} !{labelB} \
                            -o !{params.filePrefix}.counts.npz \
                            --outRawCounts !{params.filePrefix}.counts.tsv \

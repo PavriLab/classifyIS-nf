@@ -49,6 +49,9 @@ def helpMessage() {
       --FC            log2(RPM) cutoff to use for assigning upregulation or downregulation for a given peak (Default: 0.585 [log2(1.5)])
       --t             log2(RPM) cutoff to use for specifying putative peak call threshold (Default: 2)
 
+      --axMin          minimum value of axes of final plots (Default: 0)
+      --axMax          maximum value of axes of final plots (Default: 8)
+
       --filePrefix    prefix to use for the output files
       --outputDir     directory to write results to (Default: results)
 
@@ -111,6 +114,8 @@ log.info " bamB                     : ${params.bamB}"
 log.info " labelB                   : ${params.labelB}"
 log.info " FC                       : ${params.FC}"
 log.info " t                        : ${params.t}"
+log.info " axMin                    : ${params.axMin}"
+log.info " axMax                    : ${params.axMax}"
 log.info " filePrefix               : ${params.filePrefix}"
 log.info " outputDir                : ${params.outputDir}"
 log.info " ======================"
@@ -214,10 +219,39 @@ process plotting {
   set val(labelA), val(labelB), file(masterTable) from resultsProcessQuantification
 
   output:
-  file("${params.filePrefix}.pdf") into resultsPlotting
+  set file("${params.filePrefix}_density.pdf"), file("${params.filePrefix}_class.pdf") into resultsPlotting
 
   shell:
   '''
+  datashader.py -mt !{masterTable} \
+                --xcol !{labelA} --ycol !{labelB} \
+                --xmin !{params.axMin} --xmax !{params.axMax} \
+                --ymin !{params.axMin} --ymax !{params.axMax} \
+                --subsetColumn class \
+                --xlabel "!{labelA} log2(RPM)" --ylabel "!{labelB} log2(RPM)" \
+                --density F F F F F \
+                --colormaps "#000080,#000080" "#004cff,#004cff" "#29ffce,#29ffce" "#ceff29,#ceff29" "#ff6800,#ff6800" \
+                --foldchange !{params.FC} \
+                --plotmethod mesh \
+                --figwidth 6 --figheight 6 \
+                -o !{params.filePrefix}_class.pdf \
+                --xbins 200 --ybins 200 \
+                --labels "class 1" "class 2" "class 3" "class 4" "class 5" \
+                --usecounts --legend
+
+  datashader.py -mt !{masterTable} \
+                --xcol !{labelA} --ycol !{labelB} \
+                --xmin !{params.axMin} --xmax !{params.axMax} \
+                --ymin !{params.axMin} --ymax !{params.axMax} \
+                --xlabel "!{labelA} log2(RPM)" --ylabel "!{labelB} log2(RPM)" \
+                --density T \
+                --colormaps Grey,Black
+                --foldchange !{params.FC} \
+                --plotmethod mesh \
+                --figwidth 6 --figheight 6 \
+                -o !{params.filePrefix}_density.pdf \
+                --xbins 200 --ybins 200 \
+                --labels density
   '''
 }
 

@@ -392,7 +392,7 @@ parser.add_argument('--colormaps', nargs = '+',
                               This has to be in the same order as the sorted categorical values of
                               subsetColumn''')
 parser.add_argument('--foldchange', default = 0, type = float,
-                    help = 'threshold value to determine cutoff lines in plot (will be log2 converted)')
+                    help = 'threshold value to determine cutoff lines in plot as log2 value')
 parser.add_argument('--plotmethod', default = 'scatter', choices = ['scatter', 'mesh'],
                     help = '''determines which plotting scheme to use, scatter creates a scatterplot,
                               mesh uses the pcolormesh method (note that when using mesh all passed
@@ -459,7 +459,7 @@ if args.plotmethod == 'scatter':
                           ylims = yrange,
                           xlims = xrange,
                           ax = ax,
-                          foldchange = np.log2(args.foldchange),
+                          foldchange = args.foldchange,
                           coarsen = args.coarsen,
                           grid = grid, text = args.text,
                           legend = args.legend,
@@ -489,7 +489,7 @@ else:
     ax = plotmesh(hs, clrs, xrange, yrange, labels,
                   xlabel = args.xlabel,
                   ylabel = args.ylabel,
-                  foldchange = np.log2(args.foldchange),
+                  foldchange = args.foldchange,
                   grid = grid,
                   gridcolor = gridcolor,
                   ax = ax, transpose = True,

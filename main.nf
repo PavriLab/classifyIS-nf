@@ -49,8 +49,8 @@ def helpMessage() {
       --FC            log2(RPM) cutoff to use for assigning upregulation or downregulation for a given peak (Default: 0.585 [log2(1.5)])
       --t             log2(RPM) cutoff to use for specifying putative peak call threshold (Default: 2)
 
-      --axMin          minimum value of axes of final plots (Default: 0)
-      --axMax          maximum value of axes of final plots (Default: 8)
+      --axMin         minimum value of axes of final plots (Default: 0)
+      --axMax         maximum value of axes of final plots (Default: 8)
 
       --filePrefix    prefix to use for the output files
       --outputDir     directory to write results to (Default: results)

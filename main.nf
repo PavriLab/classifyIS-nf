@@ -257,7 +257,7 @@ process plotting {
                 --ymin !{params.axMin} --ymax !{params.axMax} \
                 --xlabel "!{labelA} log2(RPM)" --ylabel "!{labelB} log2(RPM)" \
                 --density T \
-                --colormaps Grey,Black
+                --colormaps Grey,Black \
                 --foldchange !{params.FC} \
                 --plotmethod mesh \
                 --figwidth 6 --figheight 6 \

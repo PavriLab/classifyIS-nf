@@ -177,7 +177,7 @@ process quantifyReads {
   file(mergedSites) from resultsMergeSites
 
   output:
-  set val(labelA), val(labelB), file(mergedSites), file("${params.filePrefix}.count.tsv") into resultsQuantifyReads
+  set val(labelA), val(labelB), file(mergedSites), file("${params.filePrefix}.counts.tsv") into resultsQuantifyReads
 
   shell:
   '''

@@ -413,6 +413,9 @@ parser.add_argument('--figheight', default = 8.0, type = float,
                     help = 'height of the generated figure')
 parser.add_argument('--text', default = None,
                     help = 'text to write into the lower right corner of the plot')
+parser.add_argument('--plotCounts', default = False, action = 'store_true',
+                    help = '''if set plots counts of overlaps and total peaks into
+                              lower right corner. --text overrides this flag''')
 args = parser.parse_args()
 
 # reading inputtable
@@ -452,6 +455,15 @@ if args.plotmethod == 'scatter':
     else:
         labels = args.labels
 
+    if args.text:
+        text = args.text
+
+    elif args.plotCounts:
+        text = "{0}/{1}".format(counts[0], len(table))
+
+    else:
+        text = None
+
     logging.info('generating figure')
     tmp, ax = scatterplot(coords, hs, clrs, args.density, labels,
                           xlabel = args.xlabel,
@@ -463,7 +475,8 @@ if args.plotmethod == 'scatter':
                           coarsen = args.coarsen,
                           grid = grid, text = args.text,
                           legend = args.legend,
-                          legendpos = args.legendposition)
+                          legendpos = args.legendposition,
+                          text = text)
 
 else:
     logging.info('aggregating points')
@@ -482,6 +495,15 @@ else:
         if args.coarsen > 1:
             hs[i] = coarseAverage(h, args.coarsen)
 
+    if args.text:
+        text = args.text
+
+    elif args.plotCounts:
+        text = "{0}/{1}".format(counts[0], len(table))
+
+    else:
+        text = None
+
     logging.info('masking arrays')
     hs = maskzeros(hs)
 
@@ -495,7 +517,7 @@ else:
                   ax = ax, transpose = True,
                   legend = args.legend,
                   legendpos = args.legendposition,
-                  text = args.text)
+                  text = text)
 
 fig.set_figwidth(args.figwidth)
 fig.set_figheight(args.figheight)

@@ -231,7 +231,7 @@ process plotting {
   set val(labelA), val(labelB), file(masterTable) from resultsProcessQuantification
 
   output:
-  set file("${params.filePrefix}_density.pdf"), file("${params.filePrefix}_class.pdf") into resultsPlotting
+  set file("${params.filePrefix}.density.pdf"), file("${params.filePrefix}.class.pdf") into resultsPlotting
 
   shell:
   '''

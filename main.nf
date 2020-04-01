@@ -134,6 +134,11 @@ quantificationChannel = Channel
                             .fromList([[file(params.bamA), params.labelA,
                                         file(params.bamB), params.labelB]])
 
+indexChannel = Channel
+                  .fromList([[file("${params.bamA}.bai"),
+                              file("${params.bamB}.bai")]])
+
+
 process mergeSites {
 
   tag { params.filePrefix }
@@ -168,6 +173,7 @@ process quantifyReads {
 
   input:
   set file(bamA), val(labelA), file(bamB), val(labelB) from quantificationChannel
+  set file(bamAindex), file(bamBindex) from indexChannel
   file(mergedSites) from resultsMergeSites
 
   output:

@@ -246,7 +246,7 @@ process plotting {
                 --foldchange !{params.FC} \
                 --plotmethod mesh \
                 --figwidth 6 --figheight 6 \
-                -o !{params.filePrefix}_class.pdf \
+                -o !{params.filePrefix}.class.pdf \
                 --xbins 200 --ybins 200 \
                 --labels "class 1" "class 2" "class 3" "class 4" "class 5" \
                 --usecounts --legend
@@ -261,7 +261,7 @@ process plotting {
                 --foldchange !{params.FC} \
                 --plotmethod mesh \
                 --figwidth 6 --figheight 6 \
-                -o !{params.filePrefix}_density.pdf \
+                -o !{params.filePrefix}.density.pdf \
                 --xbins 200 --ybins 200 \
                 --labels density
   '''

@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import pandas as pd
 import argparse as ap
 import numpy as np
@@ -46,9 +48,9 @@ if __name__ == '__main__':
     fc = args.foldChange
 
     # dormant
-    counts.loc[counts[args.wtcolumn] < counts[counts[args.kdcolumn] < args.dormantcutoff][args.wtcolumn].min(), 'class'] = 1
+    counts.loc[counts[args.wtcolumn] < counts[counts[args.kdcolumn] < args.thresholdDA][args.wtcolumn].min(), 'class'] = 1
     # absent
-    counts.loc[counts[args.kdcolumn] < counts[counts[args.wtcolumn] < args.absentcutoff][args.kdcolumn].min(), 'class'] = 5
+    counts.loc[counts[args.kdcolumn] < counts[counts[args.wtcolumn] < args.thresholdDA][args.kdcolumn].min(), 'class'] = 5
     # upregulated
     counts.loc[(counts['class'] == 0) & (counts[args.kdcolumn] > fc + counts[args.wtcolumn]), 'class'] = 2
     # downregulated

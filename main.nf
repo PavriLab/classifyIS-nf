@@ -140,6 +140,9 @@ process mergeSites {
 
   shell:
   '''
+  cat !{sitesA} !{sitesB} | \
+  sort -k1,1 -k2,2n | \
+  bedtools merge -c 4 -o collapse > !{params.filePrefix}_IS.bed
   '''
 }
 
@@ -157,10 +160,17 @@ process quantifyReads {
   file(mergedSites) from resultsMergeSites
 
   output:
-  set val(labelA), val(labelB), file("${params.filePrefix}.count.tsv") into resultsQuantifyReads
+  set val(labelA), val(labelB), file(mergedSites), file("${params.filePrefix}.count.tsv") into resultsQuantifyReads
 
   shell:
   '''
+  multiBamSummary BED-file -b !{bamA} !{bamB} \
+                           --BED !{mergeSites} \
+                           -l !{labelA} !{labelB} \
+                           -o !{params.filePrefix}.counts.npz \
+                           --outRawCounts !{params.filePrefix}.counts.tsv \
+                           -p 16 \
+                           --ignoreDuplicates
   '''
 }
 
@@ -174,13 +184,20 @@ process processQuantification {
               pattern: "*.master.tsv"
 
   input:
-  set val(labelA), val(labelB), file(quantificationFile) from resultsQuantifyReads
+  set val(labelA), val(labelB), file(mergedSites), file(quantificationFile) from resultsQuantifyReads
 
   output:
   set val(labelA), val(labelB), file("${params.filePrefix}.master.tsv") into resultsProcessQuantification
 
   shell:
   '''
+  processCounts.py -ct !{quatificationFile} \
+                   -b !{mergedSites} \
+                   -wt !{labelA} \
+                   -kd !{labelB} \
+                   -FC !{params.FC} \
+                   -t !{params.t} \
+                   -o !{params.filePrefix}.master.tsv
   '''
 }
 

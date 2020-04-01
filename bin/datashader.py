@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import argparse as ap
 import pandas as pd
 import numpy as np
@@ -204,7 +206,7 @@ def plotmesh(hs, clrmaps, xlims, ylims, datalabels, background = None, ax = None
     for h, cmap, label in zip(hs, clrmaps, datalabels):
         if legend:
             handles.append(mlines.Line2D([], [], color = cmap(1), marker = 's', label = label, ls = ''))
-            
+
         ax.pcolormesh(h.T if transpose else h, cmap = cmap, zorder = 2)
 
     # computing tickpositions
@@ -371,20 +373,20 @@ parser.add_argument('--xlabel', default = None,
 parser.add_argument('--ylabel', default = None,
                     help = 'y-axis label')
 parser.add_argument('--coarsen', default = 3, type = int,
-                    help = '''determined the neighbouring pixels to use for average computation 
+                    help = '''determined the neighbouring pixels to use for average computation
                               if density is True. set to 1 to turn it off''')
 parser.add_argument('--usecounts', default = False, action = 'store_true',
-                    help = '''if --legend is set, setting --usecounts displays counts of each 
+                    help = '''if --legend is set, setting --usecounts displays counts of each
                               category in subsetColumn in the legend''')
 parser.add_argument('--density', nargs = '+',
-                    help = '''space separated list of boolean values in the same order as sorted categorical 
+                    help = '''space separated list of boolean values in the same order as sorted categorical
                               values of subsetColumn. Indicates the use of histogram count data as colormap intensities
                               for plotting. (note that if True is set for a given position the corresponding position
                               in the colormaps has to be a valid colormap setting. Can either be T/True or F/False''')
 parser.add_argument('--colormaps', nargs = '+',
-                    help = '''space separated list of colormaps or colors to use. Can either be a list 
+                    help = '''space separated list of colormaps or colors to use. Can either be a list
                               of already existing colormaps or a list of comma-separated colors
-                              that are then used to generate custom linear segmented colormaps with 
+                              that are then used to generate custom linear segmented colormaps with
                               N = 256 (e.g. White,Red Blue,Red will generate two colormaps one that
                               transitions from white to red and one from blue to red)
                               This has to be in the same order as the sorted categorical values of
@@ -499,4 +501,3 @@ fig.set_figwidth(args.figwidth)
 fig.set_figheight(args.figheight)
 fig.tight_layout()
 fig.savefig(args.outputFile)
-

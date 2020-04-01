@@ -208,7 +208,7 @@ process processQuantification {
 
   shell:
   '''
-  processCounts.py -ct !{quatificationFile} \
+  processCounts.py -ct !{quantificationFile} \
                    -b !{mergedSites} \
                    -wt !{labelA} \
                    -kd !{labelB} \

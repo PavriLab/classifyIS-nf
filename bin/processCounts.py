@@ -33,7 +33,7 @@ if __name__ == '__main__':
     counts.sort_values(by=['chr', 'start'], inplace = True)
     counts.reset_index(drop = True, inplace = True)
 
-    bed = pd.read_csv(args.bed, sep = '\t', header = None, usecols [0, 1, 2, 3],
+    bed = pd.read_csv(args.bed, sep = '\t', header = None, usecols = [0, 1, 2, 3],
                       names = ['chr', 'start', 'end', 'name'])
 
     counts = counts.merge(bed, on = ['chr', 'start', 'end'], how = 'left')

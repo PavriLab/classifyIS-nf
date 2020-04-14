@@ -9,28 +9,10 @@
 The pipeline is built using [Nextflow](https://www.nextflow.io), a workflow tool to run tasks across multiple compute infrastructures in a very portable manner.
 
 ## Pipeline summary
-The pipeline uses sets of initiation sites originating from two conditions (usually a reference condition A and a treatment condition B) merges them and counts reads in the given BAMs overlapping the individual sites. The results of this analysis is then used to assign each initiation site to one of 5 distinct regulation classes. The principal workflow of the pipeline is as follows:
 
-1.  Merging the two sets of sites to acquire a uniform basis for quantification with BEDTools ([BEDTools](https://bedtools.readthedocs.io/en/latest/))
-2.  Quantification of mapped reads of either condition in the merged peaks with deepTools multiBamSummary ([deepTools](https://deeptools.readthedocs.io/en/develop/))
-3.  Computation of log2(RPM) values from the quantification results and assignment of a given class according to these values
-4.  Plottiing of the results
 
 ## Quick Start
 
-i. Install [`nextflow`](https://nf-co.re/usage/installation)
-
-ii. Install [`BEDTools`](https://bedtools.readthedocs.io/en/latest/) and [`deepTools`](https://deeptools.readthedocs.io/en/develop/) and the [`pandas`](https://pandas.pydata.org/docs/index.html), [`numpy`](https://numpy.org/), [`scipy`](https://www.scipy.org/) and [`matplotlib`](https://matplotlib.org/) Python packages
-
-iii. Clone repository with 
-```bash
-nextflow pull dmalzl/classifyIS-nf
-```
-
-iv. Start running your own analysis!
-```bash
-nextflow run dmalzl/classifyIS-nf --sitesA A_IS.bed --bamA conditionA.bam --labelA WT --sitesB B_IS.bed  --bamB conditionB.bam --labelB KD
-```
 
 ## Main arguments
 #### `-profile`

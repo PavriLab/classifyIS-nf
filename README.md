@@ -9,10 +9,27 @@
 The pipeline is built using [Nextflow](https://www.nextflow.io), a workflow tool to run tasks across multiple compute infrastructures in a very portable manner.
 
 ## Pipeline summary
+The pipeline performs the following steps:
 
+1.  Merging of called IS sites with [`bedtools`](https://bedtools.readthedocs.io/en/latest/index.html)
+2.  Quantification of SNS-seq reads for either condition in merged IS with [`deeptools`](https://deeptools.readthedocs.io/en/develop/index.html)
+3.  Perform classification of IS based on the given cutoff values
+4.  Plot the results
 
 ## Quick Start
+i. Install [`nextflow`](https://nf-co.re/usage/installation)
 
+ii. Install [`BEDTools`](https://bedtools.readthedocs.io/en/latest/) and [`deepTools`](https://deeptools.readthedocs.io/en/develop/) and the [`pandas`](https://pandas.pydata.org/docs/index.html), [`numpy`](https://numpy.org/), [`scipy`](https://www.scipy.org/) and [`matplotlib`](https://matplotlib.org/) Python packages
+
+iii. Clone repository with 
+```bash
+nextflow pull dmalzl/classifyIS-nf
+```
+
+iv. Start running your own analysis!
+```bash
+nextflow run dmalzl/classifyIS-nf --sitesA A_IS.bed --bamA conditionA.bam --labelA WT --sitesB B_IS.bed  --bamB conditionB.bam --labelB KD
+````
 
 ## Main arguments
 #### `-profile`

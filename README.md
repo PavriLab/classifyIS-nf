@@ -4,7 +4,7 @@
 
 ## Introduction
 
-**classifyIS-nf** is a bioinformatics analysis pipeline for quantification of NS-seq data in mapped initiation sites (see [`iniseq-nf`](https://github.com/dmalzl/inisite-nf)) and their classification on the basis of this quantification.
+**classifyIS-nf** is a bioinformatics analysis pipeline for quantification of NS-seq data in mapped initiation sites (see [`iniseq-nf`](https://github.com/pavrilab/inisite-nf)) and their classification on the basis of this quantification.
 
 The pipeline is built using [Nextflow](https://www.nextflow.io), a workflow tool to run tasks across multiple compute infrastructures in a very portable manner.
 
@@ -36,7 +36,7 @@ nextflow run dmalzl/classifyIS-nf --sitesA A_IS.bed --bamA conditionA.bam --labe
 Use this parameter to choose a configuration profile. Profiles can give configuration presets for different compute environments. For example `-profile cbe` invokes the execution of processes using the [`slurm`](https://slurm.schedmd.com/documentation.html) workload manager. If no profile is given the pipeline will be executed locally.
 
 #### `--sitesA`/`--sitesB`
-Initiaton sites for conditions A and B (e.g. mapped with [`iniseq-nf`](https://github.com/dmalzl/inisite-nf))
+Initiaton sites for conditions A and B (e.g. mapped with [`iniseq-nf`](https://github.com/pavrilab/inisite-nf))
 
 #### `--bamA`/`--bamB`
 BAM files containing aligned reads from which the initiation sites were mapped

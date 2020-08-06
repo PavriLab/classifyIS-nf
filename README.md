@@ -28,7 +28,7 @@ nextflow pull dmalzl/classifyIS-nf
 
 iv. Start running your own analysis!
 ```bash
-nextflow run dmalzl/classifyIS-nf --sitesA A_IS.bed --bamA conditionA.bam --labelA WT --sitesB B_IS.bed  --bamB conditionB.bam --labelB KD
+nextflow run pavrilab/classifyIS-nf --sitesA A_IS.bed --bamA conditionA.bam --labelA WT --sitesB B_IS.bed  --bamB conditionB.bam --labelB KD
 ````
 
 ## Main arguments

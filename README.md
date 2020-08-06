@@ -23,7 +23,7 @@ ii. Install [`BEDTools`](https://bedtools.readthedocs.io/en/latest/) and [`deepT
 
 iii. Clone repository with 
 ```bash
-nextflow pull dmalzl/classifyIS-nf
+nextflow pull pavrilab/classifyIS-nf
 ```
 
 iv. Start running your own analysis!
